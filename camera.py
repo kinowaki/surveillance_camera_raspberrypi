@@ -18,7 +18,7 @@ class Camera:
 
     def __init__(self):
         
-        cv.NamedWindow("camera", 1)
+        #cv.NamedWindow("camera", 1)
         self.capture = cv.CreateCameraCapture(0)
 
         width = None #leave None for auto-detection
@@ -36,8 +36,10 @@ class Camera:
     def run(self):
         while True:
             img = cv.QueryFrame(self.capture)
-            cv.ShowImage("camera", img)
-            c = cv.WaitKey(1);
+            #cv.ShowImage("camera", img)
+            cv.SaveImage("OutImage.jpg",img)
+	    break
+	    c = cv.WaitKey(1);
             if c == 27:
                 break
             elif c == ord("f"):
@@ -45,7 +47,7 @@ class Camera:
             elif c == ord("g"):
                 cv.SaveImage("OutImage.jpg",img)
                 print "ok"
-                cv.DestroyWindow("camera")
+                #cv.DestroyWindow("camera")
                 break
                 
     
