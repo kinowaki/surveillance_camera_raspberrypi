@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 '''
 Created on 2013/05/13
@@ -8,6 +8,7 @@ Created on 2013/05/13
 カメラ画像の取得および保存
 
 '''
+import RPi.GPIO as GPIO
 import cv
 import time
 import os
@@ -34,11 +35,19 @@ class Camera:
         else:
                 cv.SetCaptureProperty(self.capture,cv.CV_CAP_PROP_FRAME_HEIGHT,height) 
     def run(self):
+	IO_NO = 0
+	GPIO.setmode(GPIO.BOARD)
+	GPIO.setup(3, GPIO.IN)
         while True:
             img = cv.QueryFrame(self.capture)
             #cv.ShowImage("camera", img)
-            cv.SaveImage("OutImage.jpg",img)
-	    break
+	    input = GPIO.input(3)
+	    input = 0
+            if input == 0:
+		GPIO.cleanup()
+            	cv.SaveImage("OutImage.jpg",img)
+	    	print "end"
+		break
 	    c = cv.WaitKey(1);
             if c == 27:
                 break
